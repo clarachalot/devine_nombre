@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> 2e cours JS </title>
+  </head>
+
+  <style>
+      html {
+        font-family: sans-serif;
+      }
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Deviner un nombre</h1>
+
+
+    <p> Nous avons généré un nombre aléatoire entre 1 et 100 </p>
+
+    <div class="form">
+      <label for="guessField">Entrez votre proposition: </label><input type="text" id="guessField" class="guessField">
+      <input type="submit" value="Submit guess" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    </div>
+
+  </body>
+
+<!-- <button id="clickme"> Cliquez-moi! </button> -->
+
+  <script>
+// function absolu(i) {
+// if(i>=0) {
+//   let result=i;
+// }
+// else {
+//   let result=-i;
+// }
+// return result;
+// }
+
+// var x=7;
+// var y=8;
+// var z= x+y;
+// alert("z")
+
+//Ou
+
+// var x=7+8;
+// var y="7+8";
+// alert (x + " " + y);
+
+// var element = document
+
+// var eleves = ["Paul","Mike","Félix"];
+// console.log(eleves[0]);
+// // var objet = {
+// // lastName:peterson,
+// // age: 34,
+// // }
+
+let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+let guesses = document.querySelector('.guesses');
+let lastResult = document.querySelector('.lastResult');
+let lowOrHi = document.querySelector('.lowOrHi');
+
+let guessSubmit = document.querySelector('.guessSubmit');
+let guessField = document.querySelector('.guessField');
+
+let guessCount = 1;
+let resetButton;
+
+function checkGuess() {
+  alert('Je suis un espace réservé');
+}
+
+function checkGuess(){
+  let userGuess = Number(guessField.value);
+  if (guessCount === 1) {
+    guesses.textContent ='Propositions précédentes : ';
+    }
+  guesses.textContent += userGuess + ' ';
+
+  if (userGuess === randomNumber) {
+    lastResult.textContent ='Bravo, vous avez trouvé le nombre !';
+    lastResult.style.backgroundColor ='green';
+    lowOrHi.textContent ='';
+    setGameOver();
+  } else if (guessCount === 10) {
+    lastResult.textContent = '!!! PERDU !!!';
+    setGameOver();
+  } else {
+    lastResult.textContent ='Faux !';
+    lastResult.style.backgroundColor = 'red';
+    if (userGuess < randomNumber) {
+      lowOrHi.textContent = 'Le nombre saisi est trop petit !';
+    } else if (userGuess > randomNumber) {
+      lowOrHi.textContent = 'Le nombre saisi est trop grand !';
+    }
+}
+
+  guessCount++;
+  guessField.value = '';
+  guessField.focus();
+}
+
+guessSubmit.addEventListener('click', checkGuess);
+
+function setGameOver() {
+  guessField.disabled = true;
+  guessSubmit.disabled = true;
+  resetButton = document.createElement('button');
+  resetButton.textContent = 'Démarrer une nouvelle partie';
+  document.body.appendChild(resetButton);
+  resetButton.addEventListener('click', resetGame);
+}
+
+function resetGame() {
+  guessCount = 1;
+
+  let resetParas = document.querySelectorAll('.resultParas p');
+  for (let i = 0 ; i < resetParas.length ; i++) {
+    resetParas[i].textContent = '';
+  }
+
+  resetButton.parentNode.removeChild(resetButton);
+
+  guessField.disabled = false;
+  guessSubmit.disabled = false;
+  guessField.value = '';
+  guessField.focus();
+
+  lastResult.style.backgroundColor = 'white';
+
+  randomNumber = Math.floor(Math.random() * 100) + 1;
+}
+
+  </script>
+
+</html>
